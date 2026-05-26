@@ -165,9 +165,9 @@ export default function HabitCard({
 
   return (
     <motion.div
-      className={`liquid-glass rounded-2xl p-5 md:p-6 cursor-pointer transition-all duration-300 ${
+      className={`cursor-pointer transition-all duration-300 ${
         habit.completed
-          ? 'shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+          ? 'opacity-100'
           : 'opacity-70 hover:opacity-100'
       }`}
       initial={{ opacity: 0, y: 30 }}
@@ -181,7 +181,12 @@ export default function HabitCard({
       }}
       layout
     >
-      <div className="flex items-center justify-between">
+      <div className={`liquid-glass rounded-2xl p-5 md:p-6 w-full h-full ${
+        habit.completed
+          ? 'shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+          : ''
+      }`}>
+        <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="text-white/80">
             <Icon size={20} />
@@ -411,6 +416,7 @@ export default function HabitCard({
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </motion.div>
   )
 }

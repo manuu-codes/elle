@@ -108,7 +108,7 @@ export default function CustomTasks({
         {todayTasks.map((task) => (
           <motion.div
             key={task.id}
-            className="liquid-glass rounded-xl px-5 py-3.5 flex items-center justify-between cursor-pointer group"
+            className="cursor-pointer group"
             onClick={() => onToggleTask(task.id)}
             whileTap={{
               scale: 0.98,
@@ -116,38 +116,40 @@ export default function CustomTasks({
             }}
             layout
           >
-            <span
-              className={`text-sm font-semibold transition-all duration-300 ${
-                task.completed
-                  ? 'text-white/40 line-through'
-                  : 'text-white/90'
-              }`}
-            >
-              {task.name}
-            </span>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onDeleteTask(task.id)
-                }}
-                className="text-white/20 hover:text-red-400 p-1 rounded transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
-                title="Delete task"
+            <div className="liquid-glass rounded-xl px-5 py-3.5 flex items-center justify-between w-full h-full">
+              <span
+                className={`text-sm font-semibold transition-all duration-300 ${
+                  task.completed
+                    ? 'text-white/40 line-through'
+                    : 'text-white/90'
+                }`}
               >
-                <Trash2 size={14} />
-              </button>
-              <AnimatePresence>
-                {task.completed && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="text-white/50"
-                  >
-                    <Check size={16} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                {task.name}
+              </span>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onDeleteTask(task.id)
+                  }}
+                  className="text-white/20 hover:text-red-400 p-1 rounded transition-colors opacity-0 group-hover:opacity-100 cursor-pointer"
+                  title="Delete task"
+                >
+                  <Trash2 size={14} />
+                </button>
+                <AnimatePresence>
+                  {task.completed && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="text-white/50"
+                    >
+                      <Check size={16} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         ))}

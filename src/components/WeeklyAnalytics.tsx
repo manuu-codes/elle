@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { motion } from 'motion/react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   BarChart,
   Bar,
@@ -31,7 +33,8 @@ function CustomTooltip({
 }
 
 export default function WeeklyAnalytics() {
-  const weekData = useWeeklyData()
+  const [weekOffset, setWeekOffset] = useState(0)
+  const weekData = useWeeklyData(weekOffset)
 
   // Compute streak stats
   let currentStreak = 0
@@ -51,6 +54,10 @@ export default function WeeklyAnalytics() {
       ? Math.round(weekData.reduce((sum, d) => sum + d.pct, 0) / weekData.length)
       : 0
 
+  const dateRangeText = weekData.length > 0 
+    ? (weekOffset === 0 ? `This week (${weekData[0].label} – ${weekData[6].label})` : `${weekData[0].label} – ${weekData[6].label}`)
+    : 'Loading...'
+
   return (
     <motion.section
       id="weekly-analytics"
@@ -60,9 +67,32 @@ export default function WeeklyAnalytics() {
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <p className="text-white/60 text-sm uppercase tracking-widest mb-6 font-bold text-readable">
-        This week
-      </p>
+      <div className="flex justify-between items-center mb-6">
+        <p className="text-white/60 text-sm uppercase tracking-widest font-bold text-readable">
+          {dateRangeText}
+        </p>
+        <div className="flex gap-2 items-center">
+          <button
+            onClick={() => setWeekOffset(prev => prev + 1)}
+            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all cursor-pointer border border-white/10"
+            title="Previous Week"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            onClick={() => setWeekOffset(prev => Math.max(0, prev - 1))}
+            disabled={weekOffset === 0}
+            className={`p-2 rounded-xl border border-white/10 transition-all cursor-pointer ${
+              weekOffset === 0 
+                ? 'opacity-35 cursor-not-allowed text-white/30 bg-transparent' 
+                : 'bg-white/5 hover:bg-white/10 text-white/60 hover:text-white'
+            }`}
+            title="Next Week"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
 
       <div className="liquid-glass rounded-2xl p-6 md:p-8">
         {/* Chart */}
@@ -78,7 +108,7 @@ export default function WeeklyAnalytics() {
               <YAxis hide domain={[0, 100]} />
               <Tooltip
                 content={<CustomTooltip />}
-                cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+                cursor={false}
               />
               <Bar dataKey="pct" radius={[4, 4, 0, 0]} animationDuration={1200}>
                 {weekData.map((_, index) => (

@@ -157,20 +157,21 @@ export function useHabits() {
   return { habits, completedCount, toggleHabit, selectSub, setNote, updateTimer }
 }
 
-export function useWeeklyData() {
-  const [weekData, setWeekData] = useState<{ day: string; pct: number }[]>([])
+export function useWeeklyData(weekOffset: number = 0) {
+  const [weekData, setWeekData] = useState<{ day: string; pct: number; label: string }[]>([])
 
   useEffect(() => {
     async function loadWeek() {
       const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      const daysInfo: { dateKey: string; dayName: string }[] = []
+      const daysInfo: { dateKey: string; dayName: string; label: string }[] = []
       const keys: string[] = []
 
       for (let i = 6; i >= 0; i--) {
         const d = new Date()
-        d.setDate(d.getDate() - i)
+        d.setDate(d.getDate() - i - (weekOffset * 7))
         const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-        daysInfo.push({ dateKey: key, dayName: dayNames[d.getDay()] })
+        const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        daysInfo.push({ dateKey: key, dayName: dayNames[d.getDay()], label })
         keys.push(key)
       }
 
@@ -193,7 +194,7 @@ export function useWeeklyData() {
         // Fall back to local storage
       }
 
-      const weekResults = daysInfo.map(({ dateKey, dayName }) => {
+      const weekResults = daysInfo.map(({ dateKey, dayName, label }) => {
         let pct = 0
         let habitsList: HabitData[] | null = null
 
@@ -217,13 +218,13 @@ export function useWeeklyData() {
           pct = Math.round((completed / habitsList.length) * 100)
         }
 
-        return { day: dayName, pct }
+        return { day: dayName, pct, label }
       })
 
       setWeekData(weekResults)
     }
     loadWeek()
-  }, [])
+  }, [weekOffset])
 
   return weekData
 }
