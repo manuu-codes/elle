@@ -56,7 +56,7 @@ export default function App() {
     <main className="relative w-full min-h-[115vh] overflow-x-hidden flex flex-col items-center font-sans selection:bg-white/20 selection:text-white">
       {/* Background video of the hero section */}
       <video
-        className="fixed inset-0 w-full h-full object-cover z-[0]"
+        className="fixed inset-0 w-full h-full object-cover z-[-1] pointer-events-none"
         src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260429_114316_1c7889ad-2885-410e-b493-98119fee0ddb.mp4"
         autoPlay
         loop
