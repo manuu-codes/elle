@@ -38,13 +38,9 @@ export default function CustomTasks({
   }
 
   return (
-    <motion.section
+    <section
       id="tasks"
       className="w-full max-w-7xl mx-auto px-6 md:px-10 mt-20 md:mt-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
     >
       <p className="text-white/60 text-sm uppercase tracking-widest mb-6 font-bold text-readable">
         Today's extras
@@ -206,6 +202,6 @@ export default function CustomTasks({
           </AnimatePresence>
         </div>
       )}
-    </motion.section>
+    </section>
   )
 }

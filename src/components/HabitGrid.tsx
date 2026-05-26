@@ -1,4 +1,3 @@
-import { motion } from 'motion/react'
 import HabitCard from './HabitCard'
 import CompletionRing from './CompletionRing'
 import type { HabitData } from '../hooks/useHabits'
@@ -23,22 +22,17 @@ export default function HabitGrid({
   onHabitComplete,
 }: HabitGridProps) {
   return (
-    <motion.section
+    <section
       id="habits"
       className="w-full max-w-7xl mx-auto px-6 md:px-10"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
     >
       <CompletionRing completed={completedCount} total={habits.length} />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {habits.map((habit, index) => (
+        {habits.map((habit) => (
           <HabitCard
             key={habit.id}
             habit={habit}
-            index={index}
             onToggle={onToggle}
             onSelectSub={onSelectSub}
             onSetNote={onSetNote}
@@ -47,6 +41,6 @@ export default function HabitGrid({
           />
         ))}
       </div>
-    </motion.section>
+    </section>
   )
 }

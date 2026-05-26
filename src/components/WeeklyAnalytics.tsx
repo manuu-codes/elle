@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { motion } from 'motion/react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   BarChart,
@@ -59,13 +58,9 @@ export default function WeeklyAnalytics() {
     : 'Loading...'
 
   return (
-    <motion.section
+    <section
       id="weekly-analytics"
       className="w-full max-w-7xl mx-auto px-6 md:px-10 mt-20 md:mt-32"
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
     >
       <div className="flex justify-between items-center mb-6">
         <p className="text-white/60 text-sm uppercase tracking-widest font-bold text-readable">
@@ -143,6 +138,6 @@ export default function WeeklyAnalytics() {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   )
 }

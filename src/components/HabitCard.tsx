@@ -27,7 +27,6 @@ const iconMap: Record<string, React.ElementType> = {
 
 interface HabitCardProps {
   habit: HabitData
-  index: number
   onToggle: (id: string) => void
   onSelectSub: (id: string, sub: string) => void
   onSetNote: (id: string, note: string) => void
@@ -90,7 +89,6 @@ function TimerRing({
 
 export default function HabitCard({
   habit,
-  index,
   onToggle,
   onSelectSub,
   onSetNote,
@@ -164,29 +162,15 @@ export default function HabitCard({
           : 'Add a note...'
 
   return (
-    <motion.div
-      className={`cursor-pointer transition-all duration-300 ${
+    <div
+      onClick={handleCardClick}
+      className={`liquid-glass rounded-2xl p-5 md:p-6 cursor-pointer transition-all duration-300 active:scale-[0.98] ${
         habit.completed
-          ? 'opacity-100'
+          ? 'shadow-[0_0_0_1px_rgba(255,255,255,0.3)] opacity-100'
           : 'opacity-70 hover:opacity-100'
       }`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: habit.completed ? 1 : 0.7, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.08, duration: 0.5, ease: 'easeOut' }}
-      onClick={handleCardClick}
-      whileTap={{
-        scale: 0.97,
-        transition: { type: 'spring', stiffness: 300, damping: 20 },
-      }}
-      layout
     >
-      <div className={`liquid-glass rounded-2xl p-5 md:p-6 w-full h-full ${
-        habit.completed
-          ? 'shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
-          : ''
-      }`}>
-        <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="text-white/80">
             <Icon size={20} />
@@ -416,7 +400,6 @@ export default function HabitCard({
           </motion.div>
         )}
       </AnimatePresence>
-      </div>
-    </motion.div>
+    </div>
   )
 }
